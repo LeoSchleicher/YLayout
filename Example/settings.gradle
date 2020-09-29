@@ -1,0 +1,5 @@
+include ':app'
+rootProject.name = "Example"
+
+include ":ylayout"
+project(":ylayout").projectDir = file("../YLayout")
