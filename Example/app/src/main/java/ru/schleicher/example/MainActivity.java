@@ -80,6 +80,16 @@ public class MainActivity extends YogaActivity {
         MyCustomElement mce = new MyCustomElement(this); // MyCustomElement is an YLayout-based composite view
         root.appendChild(mce);
         mce.setMargin(YogaEdge.TOP, LayoutUtils.dp(10)); // we can customize it's default properties
+        mce.getLeftBox().setMargin(YogaEdge.BOTTOM, LayoutUtils.dp(5)); // or get access to subelements
+
+        MyCustomView mcv = new MyCustomView(this); // MyCustomView is a custom composite view, but does not extend YLayout, thus, has no layout-methods, Ylayout for this view must be set separately
+        mcv.getLabel().setText("Customized Text"); // we can manipulate it's state before adding to Ylayout
+        mcv.getLabel().setAllCaps(true);
+
+        YLayout mcvLayout = new YLayout(mcv); // here onAttachToLayout of mcv will be called
+        mcvLayout.setMargin(YogaEdge.TOP, LayoutUtils.dp(3));
+        root.appendChild(mcvLayout);
+
 
     }
 
