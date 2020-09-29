@@ -18,24 +18,29 @@ public class YogaActivity extends AppCompatActivity {
     public YLayout root; // this holds tompost yoga-based element
     private int oldH = 0; // previous calculated width and height to catch layout events with dimension changes
     private int oldW = 0;
+    private LayoutListener layoutListener;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        // set default layout listener
+        this.setLayoutListener((width, height) -> {
+            root.calculateLayout((float) width, (float) height);
+            root.apply();
+        });
+
         this.root = new YLayout(this);
-        this.root.view.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
-            @Override
-            public void onGlobalLayout() {
-                View rv = findParent();
-                if(rv != null){
-                    int newH = rv.getHeight();
-                    int newW = rv.getWidth();
-                    if(newH != oldH || newW != oldW){ // when new dimensions detected, recalculate yoga layouts
-                        oldH = newH;
-                        oldW = newW;
-                        root.calculateLayout((float) newW, (float) newH);
-                        root.apply();
+        this.root.view.getViewTreeObserver().addOnGlobalLayoutListener(() -> {
+            View rv = findParent();
+            if(rv != null){
+                int newH = rv.getHeight();
+                int newW = rv.getWidth();
+                if(newH != oldH || newW != oldW){ // when new dimensions detected, recalculate yoga layouts
+                    oldH = newH;
+                    oldW = newW;
+                    if(this.layoutListener != null){
+                        this.layoutListener.onLayout(newW, newH);
                     }
                 }
             }
@@ -53,6 +58,14 @@ public class YogaActivity extends AppCompatActivity {
             }
         }
         return null;
+    }
+
+    protected void setLayoutListener(LayoutListener layoutListener){
+        this.layoutListener = layoutListener;
+    }
+
+    public interface LayoutListener {
+        void onLayout(int width, int height);
     }
 
 }
