@@ -49,13 +49,20 @@ public class MainActivity extends YogaActivity {
             lo.setWidth(LayoutUtils.dp(30));
             lo.setHeightPercent(80);
         });
+
+        YLayout spacer = new YLayout(); // empty constructor creates layout without view. it will be calculated, but without view rendering, this is useful to align other elements
+        bluebox.appendChild(spacer);
+        spacer.setFlex(1);
+
         YLayout whiteBox = new YLayout(this);
         bluebox.appendChild(whiteBox);
         whiteBox.view.setBackgroundColor(Color.WHITE);
         whiteBox.configure(lo -> {
-            lo.setFlex(1);
-            lo.setAlignSelf(YogaAlign.STRETCH);
+            lo.setWidth(LayoutUtils.dp(50));
+            lo.setHeight(LayoutUtils.dp(40));
         });
+
+
 
     }
 
