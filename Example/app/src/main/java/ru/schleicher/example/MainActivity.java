@@ -1,7 +1,10 @@
 package ru.schleicher.example;
 
+import android.annotation.SuppressLint;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.widget.Button;
+import android.widget.Toast;
 
 import com.facebook.yoga.YogaAlign;
 import com.facebook.yoga.YogaEdge;
@@ -13,6 +16,7 @@ import ru.schleicher.ylayout.YLayout;
 
 public class MainActivity extends YogaActivity {
 
+    @SuppressLint({"ShowToast", "SetTextI18n"})
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -61,6 +65,16 @@ public class MainActivity extends YogaActivity {
             lo.setWidth(LayoutUtils.dp(50));
             lo.setHeight(LayoutUtils.dp(40));
         });
+
+
+        YLayout button = new YLayout(new Button(this)); // YLayout constructor with view as argument, it wraps given view and applies all layout calculations on it
+        ((Button)button.view).setText("click me!");
+        ((Button)button.view).setOnClickListener(v -> {
+            Toast.makeText(MainActivity.this, "oh no, I'm clicked!", Toast.LENGTH_LONG);
+        });
+        button.setHeight(LayoutUtils.dp(40));
+        button.setMargin(YogaEdge.TOP, LayoutUtils.dp(10));
+        root.appendChild(button);
 
 
 
