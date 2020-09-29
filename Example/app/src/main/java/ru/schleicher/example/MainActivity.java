@@ -77,6 +77,9 @@ public class MainActivity extends YogaActivity {
         root.appendChild(button);
 
 
+        MyCustomElement mce = new MyCustomElement(this); // MyCustomElement is an YLayout-based composite view
+        root.appendChild(mce);
+        mce.setMargin(YogaEdge.TOP, LayoutUtils.dp(10)); // we can customize it's default properties
 
     }
 
